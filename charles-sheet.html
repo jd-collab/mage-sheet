@@ -112,16 +112,16 @@ let mage = {
 		"Transcendence",
 	],
 
-	rotes = [
+	rotes: [
 		[ "spirit", "1", "Gremlins", "", "" ],
 		[ "", "", "(and two more)", "", "" ],
 	],
 
-	praxes = [
+	praxes: [
 		"(1)",
 	],
 
-	yantras = [
+	yantras: [
 	],
 }
 </script>
@@ -721,6 +721,80 @@ Arcana: 6 dots, none over 3, at least 1 dot in each Ruling Arcanum, none in Infe
 Willpower = Resolve + Composure | Size = 5 | Defense = Lowest of Dexterity or Wits + Athletics | Initiative Mod = Dexterity + Composure | Speed = Strength + Dexterity + 5 | Starting Wisdom = 7<br>
 Starting Gnosis = 1 | Starting Mana = Full as per Gnosis
 </p>
+<table id="rotes-block">
+  <tr>
+    <th>Arcanum</th>
+    <th>Level</th>
+    <th>Spell</th>
+    <th>Creator</th>
+    <th>Rote Skill</th>
+  </tr>
+  <tr id="rotes-0">
+    <td id="rotes-0-arcanum" class="merits-sub"></td>
+    <td id="rotes-0-level" class="merits-sub"></td>
+    <td id="rotes-0-spell" class="merits-sub">&nbsp;</td>
+    <td id="rotes-0-creator" class="merits-sub"></td>
+    <td id="rotes-0-skill" class="merits-sub"></td>
+  </tr>
+  <tr id="rotes-1">
+    <td id="rotes-1-arcanum" class="merits-sub"></td>
+    <td id="rotes-1-level" class="merits-sub"></td>
+    <td id="rotes-1-spell" class="merits-sub">&nbsp;</td>
+    <td id="rotes-1-creator" class="merits-sub"></td>
+    <td id="rotes-1-skill" class="merits-sub"></td>
+  </tr>
+  <tr id="rotes-2">
+    <td id="rotes-2-arcanum" class="merits-sub"></td>
+    <td id="rotes-2-level" class="merits-sub"></td>
+    <td id="rotes-2-spell" class="merits-sub">&nbsp;</td>
+    <td id="rotes-2-creator" class="merits-sub"></td>
+    <td id="rotes-2-skill" class="merits-sub"></td>
+  </tr>
+  <tr id="rotes-3">
+    <td id="rotes-3-arcanum" class="merits-sub"></td>
+    <td id="rotes-3-level" class="merits-sub"></td>
+    <td id="rotes-3-spell" class="merits-sub">&nbsp;</td>
+    <td id="rotes-3-creator" class="merits-sub"></td>
+    <td id="rotes-3-skill" class="merits-sub"></td>
+  </tr>
+  <tr id="rotes-4">
+    <td id="rotes-4-arcanum" class="merits-sub"></td>
+    <td id="rotes-4-level" class="merits-sub"></td>
+    <td id="rotes-4-spell" class="merits-sub">&nbsp;</td>
+    <td id="rotes-4-creator" class="merits-sub"></td>
+    <td id="rotes-4-skill" class="merits-sub"></td>
+  </tr>
+  <tr id="rotes-5">
+    <td id="rotes-5-arcanum" class="merits-sub"></td>
+    <td id="rotes-5-level" class="merits-sub"></td>
+    <td id="rotes-5-spell" class="merits-sub">&nbsp;</td>
+    <td id="rotes-5-creator" class="merits-sub"></td>
+    <td id="rotes-5-skill" class="merits-sub"></td>
+  </tr>
+</table><!-- "rotes-block" -->
+&nbsp;
+<table id="yantras">
+<tr><th>Yantras</th></tr>
+<tr><td id="yantra-0" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="yantra-1" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="yantra-2" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="yantra-3" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="yantra-4" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="yantra-5" class="merits-sub">&nbsp;</td></tr>
+</table>
+
+&nbsp;
+
+<table id="praxes">
+<tr><th>Praxes</th></tr>
+<tr><td id="praxis-0" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="praxis-1" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="praxis-2" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="praxis-3" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="praxis-4" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="praxis-5" class="merits-sub">&nbsp;</td></tr>
+</table>
+
 <span>
 </span>
 
@@ -906,6 +980,25 @@ function set_conditions_aspirations_obsessions() {
 	}
 }
 
+function set_rotes_praxes_yantras() {
+	for (let i = 0; i < mage.rotes.length; ++i) {
+		let rote = mage.rotes[i];
+		set_if("rotes-" + i + "-arcanum", rote[0]);
+		set_if("rotes-" + i + "-level", rote[1]);
+		set_if("rotes-" + i + "-spell", rote[2]);
+		set_if("rotes-" + i + "-creator", rote[3]);
+		set_if("rotes-" + i + "-skill", rote[4]);
+	}
+	for (let i = 0; i < mage.praxes.length; ++i) {
+		let praxis = mage.praxes[i];
+		set_if("praxis-" + i, praxis);
+	}
+	for (let i = 0; i < mage.yantras.length; ++i) {
+		let yantra = mage.yantras[i];
+		set_if("yantra-" + i, yantra);
+	}
+}
+
 function start_page_load() {
 	set_top_block();
 	set_primary_attributes();
@@ -915,6 +1008,7 @@ function start_page_load() {
 	set_other_named_attributes();
 	set_health_will_gnosis_mana_wis();
 	set_conditions_aspirations_obsessions();
+	set_rotes_praxes_yantras();
 }
 
 window.addEventListener('load', function(event) { start_page_load(); });
