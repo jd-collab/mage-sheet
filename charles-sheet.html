@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<!-- Copyright (C) 2022 Eric Herman -->
+<!-- License: Attribution-NonCommercial-ShareAlike 4.0 International -->
+<!-- https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.txt -->
+<!-- SPDX-License-Identifier: CC-BY-NC-SA-4.0 -->
+
+<!-- vim: set sts=2 shiftwidth=2 expandtab : -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mage Sheet</title>
+<script>
+let mage = {
+	shadow_name: "",
+	player: "",
+	chronicle: "",
+	virtue: "",
+	vice: "",
+	concept: "",
+	path: "",
+	order: "",
+	legacy: "",
+
+	// attributes:
+	intelligence: 0,
+	wits: 0,
+	resolve: 0,
+	strength: 0,
+	dexterity: 0,
+	stamina: 0,
+	presence: 0,
+	manipulation: 0,
+	composure: 0,
+
+	// skills, mental
+	academics: 0,
+	academics_sub: "",
+	academics_rote: false,
+	computer: 0,
+	crafts: 0,
+	investigation: 0,
+	medicine: 0,
+	medicine_sub: "",
+	occult: 0,
+	occult_sub: "",
+	politics: 0,
+	science: 0,
+
+	// skills, physical:
+	athletics: 0,
+	athletics_sub: "",
+	brawl: 0,
+	drive: 0,
+	firearms: 0,
+	larceny: 0,
+	stealth: 0,
+	survival: 0,
+	weaponry: 0,
+
+	// skills, social
+	animalken: 0,
+	empathy: 0,
+	expression: 0,
+	intimidation: 0,
+	persuasion: 0,
+	persuasion_sub: "",
+	socialize: 0,
+	streetwise: 0,
+	subterfuge: 0,
+
+	// arcana
+	death: 0,
+	fate: 0,
+	forces: 0,
+	life: 0,
+	matter: 0,
+	mind: 0,
+	prime: 0,
+	spirit: 0,
+	space: 0,
+	time: 0,
+
+	merits: [
+	],
+
+	size: 0,
+	speed: 0,
+	defense: 0,
+	armor: 0,
+	initiative_mod: 0,
+	beats: 0,
+	experience: 0,
+	arcane_beats: 0,
+	arcane_experience: 0,
+	health: 0,
+	health_used: 0,
+	willpower: 0,
+	willpower_used: 0,
+	gnosis: 0,
+	mana: 0,
+	wisdom: 0,
+
+	conditions: [
+	],
+
+	aspirations: [
+	],
+
+	obsessions: [
+	]
+}
+</script>
+
+<style>
+#top-info {
+  outline: dashed 1px black;
+}
+.top-val {
+  font-weight: bold;
+}
+
+.attr-type {
+  padding: 3px;
+}
+.attr-key-val {
+  padding: 3px;
+}
+.attr-key {
+  padding-left: 10px;
+  border-left: 1px solid;
+}
+.attr-val {
+  padding-right: 10px;
+}
+
+.head-text-2 {
+  font-size: 3vw;
+  /* text-align: center; */
+  /* width: 100%; */
+  /* justify-content: center; */
+}
+.head-text-3 {
+  font-size: 2vw;
+}
+
+.skill-sub {
+  border-bottom: 1px solid;
+  font-size:small;
+  /* font-size:medium
+     |xx-small|x-small|small|large|x-large|xx-large
+     |smaller|larger|length|initial|inherit;
+  */
+}
+.skill-head-box {
+  font-size:xx-small;
+}
+.skill-head-name {
+  font-size:large;
+}
+.skill-head-unskilled {
+  font-size:xx-small;
+  justify-content: right;
+}
+
+.fine-print {
+  font-size:xx-small;
+}
+.arcana-sub {
+  border-bottom: 1px solid;
+  font-size:small;
+  /* font-size:medium
+     |xx-small|x-small|small|large|x-large|xx-large
+     |smaller|larger|length|initial|inherit;
+  */
+}
+.arcana-head-name {
+  font-size:large;
+}
+
+.merits-sub {
+  border-bottom: 1px solid;
+}
+
+#attributes {
+  padding-top: 3px;
+  outline: dashed 1px black;
+  padding-bottom: 3px;
+}
+
+#skills-and-traits {
+  outline: dashed 1px black;
+}
+#skills-and-traits-left {
+  outline: dashed 1px black;
+}
+</style>
+
+</head>
+<body>
+<!-- TODO: the top block is not really tabular data per se, consider using
+	grid or flexbox or similar to lay out the top-level information -->
+<table id="top-info">
+<tr>
+<td>
+<table id="top-left">
+  <tr id="top-name" class="top-key-val">
+  <td>
+    <span id="shadow-name-key" class="top-key">Shadow Name:</span>
+    <span id="shadow-name-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-name" -->
+  <tr id="top-player" class="top-key-val">
+  <td>
+    <span id="player-key" class="top-key">Player:</span>
+    <span id="player-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-player" -->
+  <tr id="top-chronicle" class="top-key-val">
+  <td>
+    <span id="chronicle-key" class="top-key">Chronicle:</span>
+    <span id="chronicle-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-chronicle" -->
+</table><!-- "top-left" -->
+</td>
+<td>
+<table id="top-center">
+  <tr id="top-virtue" class="top-key-val">
+  <td>
+    <span id="virtue-key" class="top-key">Virtue:</span>
+    <span id="virtue-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-virtue" -->
+  <tr id="top-vice" class="top-key-val">
+  <td>
+    <span id="vice-key" class="top-key">Vice:</span>
+    <span id="vice-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-vice" -->
+  <tr id="top-concept" class="top-key-val">
+  <td>
+    <span id="concept-key" class="top-key">Concept:</span>
+    <span id="concept-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-concept" -->
+</table><!-- "top-center" -->
+</td>
+<td>
+<table id="top-right">
+  <tr id="top-path" class="top-key-val">
+  <td>
+    <span id="path-key" class="top-key">Path:</span>
+    <span id="path-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-path" -->
+  <tr id="top-order" class="top-key-val">
+  <td>
+    <span id="order-key" class="top-key">Order:</span>
+    <span id="order-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-order" -->
+  <tr id="top-legacy" class="top-key-val">
+  <td>
+    <span id="legacy-key" class="top-key">Legacy:</span>
+    <span id="legacy-val" class="top-val"></span>
+  </td>
+  </tr><!-- "top-legacy" -->
+</table><!-- "top-right" -->
+</td>
+</tr>
+</table><!-- "top-info" -->
+&nbsp;
+<table id="attributes">
+  <!-- todo: consider colgroup to declare style rather than per-element-->
+  <tr><th id="attrributes-head-text" class="head-text-2" colspan="7">Attributes</th></tr>
+  <tr>
+    <th>&nbsp;</th>
+    <th id="attr-cat-ment" class="attr-cat" colspan="2">Mental</th>
+    <th id="attr-cat-phys" class="attr-cat" colspan="2">Physical</th>
+    <th id="attr-cat-soci" class="attr-cat" colspan="2">Social</th>
+  </tr>
+  <tr id="attr-row-power" class="attr-row">
+    <th id="attr-type-power" class="attr-type">Power</th>
+    <td id="attr-key-int" class="attr-key">Intelligence</td>
+    <td id="attr-val-int" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+    <td id="attr-key-str" class="attr-key">Strength</td>
+    <td id="attr-val-str" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+    <td id="attr-key-pre" class="attr-key">Presence</td>
+    <td id="attr-val-pre" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+  </tr>
+  <tr id="attr-row-finesse" class="attr-row">
+    <th id="attr-type-finesse" class="attr-type">Finesse</th>
+    <td id="attr-key-wit" class="attr-key">Wits</td>
+    <td id="attr-val-wit" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+    <td id="attr-key-dex" class="attr-key">Dexterity</td>
+    <td id="attr-val-dex" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+    <td id="attr-key-man" class="attr-key">Manipulation</td>
+    <td id="attr-val-man" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+  </tr>
+  <tr id="attr-row-resist" class="attr-row">
+    <th id="attr-type-resist" class="attr-type">Resistance</th>
+    <td id="attr-key-res" class="attr-key">Resolve</td>
+    <td id="attr-val-res" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+    <td id="attr-key-sta" class="attr-key">Stamina</td>
+    <td id="attr-val-sta" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+    <td id="attr-key-com" class="attr-key">Composure</td>
+    <td id="attr-val-com" class="attr-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+  </tr>
+</table><!-- "attributes" -->
+&nbsp;
+
+<!-- TODO: while the blocks inside of the skills and traits are truly tabular
+	data, using a table to lay out the blocks is archaic; look into using
+	some CSS for placement of the table blocks relative to one-another -->
+<table id="skills-and-traits">
+<tr id="skills-and-traits-one-row">
+<th id="skills-head-text" class="head-text-2">Skills</th>
+<th id="other-traits-head-text" class="head-text-2" colspan=2>Other Traits</th>
+</tr>
+<tr>
+<td id="skills-and-traits-left">
+<table id="skill-block">
+<tr id="skill-row-head-mental" class="skill-head-row">
+  <th colspan="4" align="center" id="mental-head-name" class="skill-head-name">Mental</th>
+</tr><!-- "skill-row-head-mental" -->
+<tr id="skill-row-sub-head-mental" class="skill-sub-head-row">
+  <th id="mental-head-box" class="skill-head-box">Rote</th>
+  <th colspan="3" align="right" id="mental-head-unskilled" class="skill-head-unskilled">(-3 unskilled)</th>
+</tr><!-- "skill-row-sub-head-mental" -->
+<tr id="skill-row-academics" class="skill-row">
+  <td id="skill-box-academics" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-academics" class="skill-key">Academics</td>
+  <td id="skill-sub-academics" class="skill-sub"></td>
+  <td id="skill-val-academics" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-academics" -->
+<tr id="skill-row-computer" class="skill-row">
+  <td id="skill-box-computer" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-computer" class="skill-key">Computer</td>
+  <td id="skill-sub-computer" class="skill-sub"></td>
+  <td id="skill-val-computer" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-computer" -->
+<tr id="skill-row-crafts" class="skill-row">
+  <td id="skill-box-crafts" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-crafts" class="skill-key">Crafts</td>
+  <td id="skill-sub-crafts" class="skill-sub"></td>
+  <td id="skill-val-crafts" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-crafts" -->
+<tr id="skill-row-investigation" class="skill-row">
+  <td id="skill-box-investigation" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-investigation" class="skill-key">Investigation</td>
+  <td id="skill-sub-investigation" class="skill-sub"></td>
+  <td id="skill-val-investigation" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-investigation" -->
+<tr id="skill-row-medicine" class="skill-row">
+  <td id="skill-box-medicine" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-medicine" class="skill-key">Medicine</td>
+  <td id="skill-sub-medicine" class="skill-sub"></td>
+  <td id="skill-val-medicine" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-medicine" -->
+<tr id="skill-row-occult" class="skill-row">
+  <td id="skill-box-occult" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-occult" class="skill-key">Occult</td>
+  <td id="skill-sub-occult" class="skill-sub"></td>
+  <td id="skill-val-occult" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-occult" -->
+<tr id="skill-row-politics" class="skill-row">
+  <td id="skill-box-politics" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-politics" class="skill-key">Politics</td>
+  <td id="skill-sub-politics" class="skill-sub"></td>
+  <td id="skill-val-politics" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-politics" -->
+<tr id="skill-row-science" class="skill-row">
+  <td id="skill-box-science" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-science" class="skill-key">Science</td>
+  <td id="skill-sub-science" class="skill-sub"></td>
+  <td id="skill-val-science" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-science" -->
+
+<tr><td colspan="4">&nbsp;<!--spacer--></td></tr>
+
+<tr id="skill-row-head-physical" class="skill-head-row">
+  <th colspan="4" align="center" id="physical-head-name" class="skill-head-name">Physical</th>
+</tr><!-- "skill-row-head-physical" -->
+<tr id="skill-row-sub-head-physical" class="skill-sub-head-row">
+  <th id="physical-head-box" class="skill-head-box">Rote</th>
+  <th colspan="3" align="right" id="physical-head-unskilled" class="skill-head-unskilled">(-1 unskilled)</th>
+</tr><!-- "skill-row-sub-head-physical" -->
+<tr id="skill-row-athletics" class="skill-row">
+  <td id="skill-box-athletics" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-athletics" class="skill-key">Athletics</td>
+  <td id="skill-sub-athletics" class="skill-sub"></td>
+  <td id="skill-val-athletics" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-athletics" -->
+<tr id="skill-row-brawl" class="skill-row">
+  <td id="skill-box-brawl" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-brawl" class="skill-key">Brawl</td>
+  <td id="skill-sub-brawl" class="skill-sub"></td>
+  <td id="skill-val-brawl" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-brawl" -->
+<tr id="skill-row-drive" class="skill-row">
+  <td id="skill-box-drive" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-drive" class="skill-key">Drive</td>
+  <td id="skill-sub-drive" class="skill-sub"></td>
+  <td id="skill-val-drive" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-drive" -->
+<tr id="skill-row-firearms" class="skill-row">
+  <td id="skill-box-firearms" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-firearms" class="skill-key">Firearms</td>
+  <td id="skill-sub-firearms" class="skill-sub"></td>
+  <td id="skill-val-firearms" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-firearms" -->
+<tr id="skill-row-larceny" class="skill-row">
+  <td id="skill-box-larceny" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-larceny" class="skill-key">Larceny</td>
+  <td id="skill-sub-larceny" class="skill-sub"></td>
+  <td id="skill-val-larceny" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-larceny" -->
+<tr id="skill-row-stealth" class="skill-row">
+  <td id="skill-box-stealth" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-stealth" class="skill-key">Stealth</td>
+  <td id="skill-sub-stealth" class="skill-sub"></td>
+  <td id="skill-val-stealth" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-stealth" -->
+<tr id="skill-row-survival" class="skill-row">
+  <td id="skill-box-survival" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-survival" class="skill-key">Survival</td>
+  <td id="skill-sub-survival" class="skill-sub"></td>
+  <td id="skill-val-survival" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-survival" -->
+<tr id="skill-row-weaponry" class="skill-row">
+  <td id="skill-box-weaponry" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-weaponry" class="skill-key">Weaponry</td>
+  <td id="skill-sub-weaponry" class="skill-sub"></td>
+  <td id="skill-val-weaponry" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-weaponry" -->
+
+<tr><td colspan="4">&nbsp;<!--spacer--></td></tr>
+
+<tr id="skill-row-head-social" class="skill-head-row">
+  <th colspan="4" align="center" id="social-head-name" class="skill-head-name">Social</th>
+</tr><!-- "skill-row-head-social" -->
+<tr id="skill-row-sub-head-social" class="skill-sub-head-row" >
+  <th id="social-head-box" class="skill-head-box">Rote</th>
+  <th colspan="3" align="right" id="social-head-unskilled" class="skill-head-unskilled">(-1 unskilled)</th>
+</tr><!-- "skill-row-sub-head-social" -->
+<tr id="skill-row-animalken" class="skill-row">
+  <td id="skill-box-animalken" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-animalken" class="skill-key">Animal Ken</td>
+  <td id="skill-sub-animalken" class="skill-sub"></td>
+  <td id="skill-val-animalken" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-animalken" -->
+<tr id="skill-row-empathy" class="skill-row">
+  <td id="skill-box-empathy" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-empathy" class="skill-key">Empathy</td>
+  <td id="skill-sub-empathy" class="skill-sub"></td>
+  <td id="skill-val-empathy" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-empathy" -->
+<tr id="skill-row-expression" class="skill-row">
+  <td id="skill-box-expression" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-expression" class="skill-key">Expression</td>
+  <td id="skill-sub-expression" class="skill-sub"></td>
+  <td id="skill-val-expression" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-expression" -->
+<tr id="skill-row-intimidation" class="skill-row">
+  <td id="skill-box-intimidation" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-intimidation" class="skill-key">Intimidation</td>
+  <td id="skill-sub-intimidation" class="skill-sub"></td>
+  <td id="skill-val-intimidation" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-intimidation" -->
+<tr id="skill-row-persuasion" class="skill-row">
+  <td id="skill-box-persuasion" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-persuasion" class="skill-key">Persuasion</td>
+  <td id="skill-sub-persuasion" class="skill-sub">understanding</td>
+  <td id="skill-val-persuasion" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-persuasion" -->
+<tr id="skill-row-socialize" class="skill-row">
+  <td id="skill-box-socialize" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-socialize" class="skill-key">Socialize</td>
+  <td id="skill-sub-socialize" class="skill-sub"></td>
+  <td id="skill-val-socialize" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-socialize" -->
+<tr id="skill-row-streetwise" class="skill-row">
+  <td id="skill-box-streetwise" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-streetwise" class="skill-key">Streetwise</td>
+  <td id="skill-sub-streetwise" class="skill-sub"></td>
+  <td id="skill-val-streetwise" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-streetwise" -->
+<tr id="skill-row-subterfuge" class="skill-row">
+  <td id="skill-box-subterfuge" class="skill-box">&#x25a1;</td>
+  <td id="skill-key-subterfuge" class="skill-key">Subterfuge</td>
+  <td id="skill-sub-subterfuge" class="skill-sub"></td>
+  <td id="skill-val-subterfuge" class="skill-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "skill-row-subterfuge" -->
+
+</table><!-- "skill-block" -->
+</td><!-- "skills-and-traits-left" -->
+<td id="skills-and-traits-right">
+<table id="other-traits-left-block">
+<tr id="arcana-row-head" class="arcana-head-row">
+  <th id="arcana-head-left" class="arcana-head-left"></th>
+  <th id="arcana-head-name" class="arcana-head-name">Arcana</th>
+  <th id="arcana-head-right" class="arcana-head-right"></th>
+</tr><!-- "arcana-row-head" -->
+<tr id="arcana-row-death" class="arcana-row">
+  <td id="arcana-key-death" class="arcana-key">Death</td>
+  <td id="arcana-sub-death" class="arcana-sub"></td>
+  <td id="arcana-val-death" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-death" -->
+<tr id="arcana-row-fate" class="arcana-row">
+  <td id="arcana-key-fate" class="arcana-key">Fate</td>
+  <td id="arcana-sub-fate" class="arcana-sub"></td>
+  <td id="arcana-val-fate" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-fate" -->
+<tr id="arcana-row-forces" class="arcana-row">
+  <td id="arcana-key-forces" class="arcana-key">Forces</td>
+  <td id="arcana-sub-forces" class="arcana-sub"></td>
+  <td id="arcana-val-forces" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-forces" -->
+<tr id="arcana-row-life" class="arcana-row">
+  <td id="arcana-key-life" class="arcana-key">Life</td>
+  <td id="arcana-sub-life" class="arcana-sub"></td>
+  <td id="arcana-val-life" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-life" -->
+<tr id="arcana-row-matter" class="arcana-row">
+  <td id="arcana-key-matter" class="arcana-key">Matter</td>
+  <td id="arcana-sub-matter" class="arcana-sub"></td>
+  <td id="arcana-val-matter" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-matter" -->
+<tr id="arcana-row-mind" class="arcana-row">
+  <td id="arcana-key-mind" class="arcana-key">Mind</td>
+  <td id="arcana-sub-mind" class="arcana-sub"></td>
+  <td id="arcana-val-mind" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-mind" -->
+<tr id="arcana-row-prime" class="arcana-row">
+  <td id="arcana-key-prime" class="arcana-key">Prime</td>
+  <td id="arcana-sub-prime" class="arcana-sub"></td>
+  <td id="arcana-val-prime" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-prime" -->
+<tr id="arcana-row-spirit" class="arcana-row">
+  <td id="arcana-key-spirit" class="arcana-key">Spirit</td>
+  <td id="arcana-sub-spirit" class="arcana-sub"></td>
+  <td id="arcana-val-spirit" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-spirit" -->
+<tr id="arcana-row-space" class="arcana-row">
+  <td id="arcana-key-space" class="arcana-key">Space</td>
+  <td id="arcana-sub-space" class="arcana-sub"></td>
+  <td id="arcana-val-space" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-space" -->
+<tr id="arcana-row-time" class="arcana-row">
+  <td id="arcana-key-time" class="arcana-key">Time</td>
+  <td id="arcana-sub-time" class="arcana-sub"></td>
+  <td id="arcana-val-time" class="arcana-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "arcana-row-time" -->
+<tr><td colspan="3">&nbsp;</td></tr>
+<tr id="merits-row-head" class="merits-head-row">
+  <th id="merits-head-left" class="merits-head-left"></th>
+  <th id="merits-head-name" class="merits-head-name">Merits</th>
+  <th id="merits-head-right" class="merits-head-right"></th>
+</tr><!-- "merits-row-head" -->
+<tr id="merits-row-0" class="merits-row">
+  <td id="merits-sub-0" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-0" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-0" -->
+<tr id="merits-row-1" class="merits-row">
+  <td id="merits-sub-1" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-1" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-1" -->
+<tr id="merits-row-2" class="merits-row">
+  <td id="merits-sub-2" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-2" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-2" -->
+<tr id="merits-row-3" class="merits-row">
+  <td id="merits-sub-3" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-3" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-3" -->
+<tr id="merits-row-4" class="merits-row">
+  <td id="merits-sub-4" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-4" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-4" -->
+<tr id="merits-row-5" class="merits-row">
+  <td id="merits-sub-5" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-5" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-5" -->
+<tr id="merits-row-6" class="merits-row">
+  <td id="merits-sub-6" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-6" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-6" -->
+<tr id="merits-row-7" class="merits-row">
+  <td id="merits-sub-7" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-7" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-7" -->
+<tr id="merits-row-8" class="merits-row">
+  <td id="merits-sub-8" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-8" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-8" -->
+<tr id="merits-row-9" class="merits-row">
+  <td id="merits-sub-9" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-9" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-9" -->
+<tr id="merits-row-10" class="merits-row">
+  <td id="merits-sub-10" class="merits-sub" colspan="2"></td>
+  <td id="merits-val-10" class="merits-val">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td>
+</tr><!-- "merits-row-10" -->
+</table><!-- "other-traits-left-block" -->
+<table id="other-named">
+<tr id="other-named-row-size" class="other-named-row">
+  <td id="other-named-key-size" class="other-named-key">Size:</td>
+  <td id="other-named-val-size" class="other-named-val" colspan="2"></td>
+</tr><!-- "other-named-row-size" -->
+<tr id="other-named-row-speed" class="other-named-row">
+  <td id="other-named-key-speed" class="other-named-key">Speed:</td>
+  <td id="other-named-val-speed" class="other-named-val" colspan="2"></td>
+</tr><!-- "other-named-row-speed" -->
+<tr id="other-named-row-defense" class="other-named-row">
+  <td id="other-named-key-defense" class="other-named-key">Defense:</td>
+  <td id="other-named-val-defense" class="other-named-val" colspan="2"></td>
+</tr><!-- "other-named-row-defense" -->
+<tr id="other-named-row-armor" class="other-named-row">
+  <td id="other-named-key-armor" class="other-named-key">Armor:</td>
+  <td id="other-named-val-armor" class="other-named-val" colspan="2"></td>
+</tr><!-- "other-named-row-armor" -->
+<tr id="other-named-row-initmod" class="other-named-row">
+  <td id="other-named-key-initmod" class="other-named-key">Initiative Mod:</td>
+  <td id="other-named-val-initmod" class="other-named-val" colspan="2"></td>
+</tr><!-- "other-named-row-initmod" -->
+<tr id="other-named-row-beats" class="other-named-row">
+  <td id="other-named-key-beats" class="other-named-key">Beats:</td>
+  <td id="other-named-val-beats" class="other-named-val">&nbsp;</td>
+  <td id="other-named-box-beats" class="other-named-box">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td>
+</tr><!-- "other-named-row-beats" -->
+<tr id="other-named-row-exp" class="other-named-row">
+  <td id="other-named-key-exp" class="other-named-key">Experience:</td>
+  <td id="other-named-val-exp" class="other-named-val" colspan="2"></td>
+</tr><!-- "other-named-row-exp" -->
+<tr id="other-named-row-arcanebeats" class="other-named-row">
+  <td id="other-named-key-arcanebeats" class="other-named-key">Arcane Beats:</td>
+  <td id="other-named-val-arcanebeats" class="other-named-val">&nbsp;</td>
+  <td id="other-named-box-arcanebeats" class="other-named-box">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td>
+</tr><!-- "other-named-row-arcanebeats" -->
+<tr id="other-named-row-arcaneexp" class="other-named-row">
+  <td id="other-named-key-arcaneexp" class="other-named-key">Arcane Exp:</td>
+  <td id="other-named-val-arcaneexp" class="other-named-val" colspan="2"></td>
+</tr><!-- "other-named-row-arcaneexp" -->
+</table><!-- "other-traits-left-block" -->
+</td><!-- "skills-and-traits-right" -->
+<td id="health-will-and-more">
+<table>
+
+<tr><th>Health</th></tr>
+<tr><td id="val-health" align="center">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
+<tr><td id="val-health-used" align="center">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><th>Willpower</th></tr>
+<tr><td id="val-willpower" align="center">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
+<tr><td id="val-willpower-used" align="center">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><th>Gnosis</th></tr>
+<tr><td id="val-gnosis" align="center">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><th>Mana</th></tr>
+<tr><td id="val-mana1" align="center">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
+<tr><td id="val-mana2" align="center">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><th>Wisdom</th></tr>
+<tr><td id="val-wisdom" align="center">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><th>Conditions</th></tr>
+<tr><td id="condition-0" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="condition-1" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="condition-2" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="condition-3" class="merits-sub">&nbsp;</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><th>Aspirations</th></tr>
+<tr><td id="aspiration-0" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="aspiration-1" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="aspiration-2" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="aspiration-3" class="merits-sub">&nbsp;</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+<tr><th>Obsessions</th></tr>
+<tr><td id="obsession-0" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="obsession-1" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="obsession-2" class="merits-sub">&nbsp;</td></tr>
+<tr><td id="obsession-3" class="merits-sub">&nbsp;</td></tr>
+
+</table>
+</td><!-- "health-will-and-more" -->
+</tr><!-- "skills-and-traits-one-row" -->
+</table><!-- "skills-and-traits" -->
+<p class="fine-print">
+Aspirations 3 | Obsessions - 1 at Gnosis 1 or 2, 2 at Gnosis 3 | Attributes 5/4/3 (+1 dot in any Resistance Attribute) | Skills 11/7/4 (+1 dot of Occult if in an Order) (+3 Specialties)<br>
+Arcana: 6 dots, none over 3, at least 1 dot in each Ruling Arcanum, none in Inferior Arcanum | Praxes - 1 per dot of Gnosis | Rotes 3 | Merits 10 | Health = Stamina + Size<br>
+Willpower = Resolve + Composure | Size = 5 | Defense = Lowest of Dexterity or Wits + Athletics | Initiative Mod = Dexterity + Composure | Speed = Strength + Dexterity + 5 | Starting Wisdom = 7<br>
+Starting Gnosis = 1 | Starting Mana = Full as per Gnosis
+</p>
+<span>
+</span>
+
+<script>
+var set_if = function(element_id, variable) {
+	if (variable) {
+		let elem = document.getElementById(element_id);
+		elem.innerHTML = '' + variable;
+	}
+};
+
+function circles_or_squares(is_circle, fraction, total) {
+	// HTML Entity (hex) &#x25cb; Unicode Character 'WHITE CIRCLE' (U+25CB)
+	// HTML Entity (hex) &#x25cf; Unicode Character 'BLACK CIRCLE' (U+25CF)
+	// HTML Entity (hex) &#x25a1; Unicode Character 'WHITE SQUARE' (U+25A1)
+	// HTML Entity (hex) &#x25a0; Unicode Character 'BLACK SQUARE' (U+25A0)
+	let white;
+	let black;
+	if (is_circle) {
+		white = '&#x25cb;'
+		black = '&#x25cf;'
+	} else {
+		white = '&#x25a1;'
+		black = '&#x25a0;'
+	}
+	let str = '';
+	for(let i= 0; i < total; ++i) {
+		if (str.length > 0) {
+			str += ' ';
+		}
+		if (i < fraction) {
+			str += black;
+		} else {
+			str += white;
+		}
+	}
+	return str;
+}
+function set_circles_if(element_id, fraction, total) {
+	let str = circles_or_squares(1, fraction, total);
+	set_if(element_id, str);
+}
+function set_squares_if(element_id, fraction, total) {
+	let str = circles_or_squares(0, fraction, total);
+	set_if(element_id, str);
+}
+
+function set_top_block() {
+	set_if('shadow-name-val', mage.shadow_name);
+	set_if('player-val', mage.player);
+	set_if('chronicle-val', mage.chronicle);
+	set_if('virtue-val', mage.virtue);
+	set_if('vice-val', mage.vice);
+	set_if('concept-val', mage.concept);
+	set_if('path-val', mage.path);
+	set_if('order-val', mage.order);
+	set_if('legacy-val', mage.legacy);
+}
+
+function set_primary_attributes() {
+	set_circles_if('attr-val-int', mage.intelligence, 5);
+	set_circles_if('attr-val-str', mage.strength, 5);
+	set_circles_if('attr-val-pre', mage.presence, 5);
+	set_circles_if('attr-val-wit', mage.wits, 5);
+	set_circles_if('attr-val-dex', mage.dexterity, 5);
+	set_circles_if('attr-val-man', mage.manipulation, 5);
+	set_circles_if('attr-val-res', mage.resolve, 5);
+	set_circles_if('attr-val-sta', mage.stamina, 5);
+	set_circles_if('attr-val-com', mage.composure, 5);
+}
+
+function set_skills() {
+	let skills = [
+		'academics',
+		'computer',
+		'crafts',
+		'investigation',
+		'medicine',
+		'occult',
+		'politics',
+		'science',
+		'athletics',
+		'brawl',
+		'drive',
+		'firearms',
+		'larceny',
+		'stealth',
+		'survival',
+		'weaponry',
+		'animalken',
+		'empathy',
+		'expression',
+		'intimidation',
+		'persuasion',
+		'socialize',
+		'streetwise',
+	];
+	for (let i = 0; i < skills.length; ++i) {
+		let skill = skills[i];
+		let box_val = mage[skill + '_rote'];
+		let sub_val = mage[skill + '_sub'];
+		set_squares_if('skill-box-' + skill, box_val, 1);
+		set_if('skill-sub-' + skill, sub_val);
+		set_circles_if('skill-val-' + skill, mage[skill], 5);
+	}
+}
+
+function set_arcana() {
+	let arcana_list = [
+		'death',
+		'fate',
+		'forces',
+		'life',
+		'matter',
+		'mind',
+		'prime',
+		'spirit',
+		'space',
+		'time',
+	];
+	for (let i = 0; i < arcana_list.length; ++i) {
+		let arcana = arcana_list[i];
+		set_if('arcana-sub-' + arcana, mage[arcana + '_sub']);
+		set_circles_if('arcana-val-' + arcana , mage[arcana], 5);
+	}
+}
+
+function set_merits() {
+	for (let i = 0; i < mage.merits.length; ++i) {
+		let merit = mage.merits[i];
+		let text = merit[0];
+		let dots = merit[1];
+		set_if("merits-sub-" + i, text);
+		set_circles_if("merits-val-" + i, dots, 5);
+	}
+}
+
+function set_other_named_attributes() {
+	set_if('other-named-val-size', mage.size);
+	set_if('other-named-val-speed', mage.speed);
+	set_if('other-named-val-defense', mage.defense);
+	set_if('other-named-val-armor', mage.armor);
+	set_if('other-named-val-initmod', mage.initiative_mod);
+	set_squares_if('other-named-box-beats', mage.beats, 5);
+	set_if('other-named-val-exp', mage.experience);
+	set_squares_if('other-named-box-arcanebeats', mage.arcane_beats, 5);
+	set_if('other-named-val-arcaneexp', mage.arcane_experience);
+}
+
+function set_health_will_gnosis_mana_wis() {
+	set_circles_if('val-health', mage.health, 12);
+	set_squares_if('val-health-used', mage.health_used, 12);
+
+	set_circles_if('val-willpower', mage.willpower, 10);
+	set_squares_if('val-health-used', mage.willpower_used, 10);
+
+	set_circles_if('val-gnosis', mage.gnosis, 10);
+
+	let mana1 = mage.mana;
+	let mana2 = 0;
+	if (mana1 > 10) {
+		mana2 = mana1 - 10;
+		mana1 = 10;
+	}
+	set_squares_if('val-mana1', mana1, 10);
+	set_squares_if('val-mana2', mana1, 10);
+
+	set_circles_if('val-wisdom', mage.wisdom, 10);
+}
+
+function set_conditions_aspirations_obsessions() {
+	for (let i = 0; i < mage.conditions.length; ++i) {
+		let condition = mage.conditions[i];
+		set_if("condition-" + i, condition);
+	}
+	for (let i = 0; i < mage.aspirations.length; ++i) {
+		let aspiration = mage.aspirations[i];
+		set_if("aspiration-" + i, aspiration);
+	}
+	for (let i = 0; i < mage.obsessions.length; ++i) {
+		let obsession = mage.obsessions[i];
+		set_if("obsession-" + i, obsession);
+	}
+}
+
+function start_page_load() {
+	set_top_block();
+	set_primary_attributes();
+	set_skills();
+	set_arcana();
+	set_merits();
+	set_other_named_attributes();
+	set_health_will_gnosis_mana_wis();
+	set_conditions_aspirations_obsessions();
+}
+
+window.addEventListener('load', function(event) { start_page_load(); });
+</script>
+
+</body>
+</html>
