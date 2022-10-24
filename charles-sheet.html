@@ -171,10 +171,11 @@ let mage = {
 }
 .skill-head-name {
   font-size:large;
+  text-align: center;
 }
 .skill-head-unskilled {
   font-size:xx-small;
-  justify-content: right;
+  text-align: right;
 }
 
 .fine-print {
@@ -336,11 +337,11 @@ let mage = {
 <td id="skills-and-traits-left">
 <table id="skill-block">
 <tr id="skill-row-head-mental" class="skill-head-row">
-  <th colspan="4" align="center" id="mental-head-name" class="skill-head-name">Mental</th>
+  <th colspan="4" id="mental-head-name" class="skill-head-name">Mental</th>
 </tr><!-- "skill-row-head-mental" -->
 <tr id="skill-row-sub-head-mental" class="skill-sub-head-row">
   <th id="mental-head-box" class="skill-head-box">Rote</th>
-  <th colspan="3" align="right" id="mental-head-unskilled" class="skill-head-unskilled">(-3 unskilled)</th>
+  <th colspan="3" id="mental-head-unskilled" class="skill-head-unskilled">(-3 unskilled)</th>
 </tr><!-- "skill-row-sub-head-mental" -->
 <tr id="skill-row-academics" class="skill-row">
   <td id="skill-box-academics" class="skill-box">&#x25a1;</td>
@@ -394,11 +395,11 @@ let mage = {
 <tr><td colspan="4">&nbsp;<!--spacer--></td></tr>
 
 <tr id="skill-row-head-physical" class="skill-head-row">
-  <th colspan="4" align="center" id="physical-head-name" class="skill-head-name">Physical</th>
+  <th colspan="4" id="physical-head-name" class="skill-head-name">Physical</th>
 </tr><!-- "skill-row-head-physical" -->
 <tr id="skill-row-sub-head-physical" class="skill-sub-head-row">
   <th id="physical-head-box" class="skill-head-box">Rote</th>
-  <th colspan="3" align="right" id="physical-head-unskilled" class="skill-head-unskilled">(-1 unskilled)</th>
+  <th colspan="3" id="physical-head-unskilled" class="skill-head-unskilled">(-1 unskilled)</th>
 </tr><!-- "skill-row-sub-head-physical" -->
 <tr id="skill-row-athletics" class="skill-row">
   <td id="skill-box-athletics" class="skill-box">&#x25a1;</td>
@@ -452,11 +453,11 @@ let mage = {
 <tr><td colspan="4">&nbsp;<!--spacer--></td></tr>
 
 <tr id="skill-row-head-social" class="skill-head-row">
-  <th colspan="4" align="center" id="social-head-name" class="skill-head-name">Social</th>
+  <th colspan="4" id="social-head-name" class="skill-head-name">Social</th>
 </tr><!-- "skill-row-head-social" -->
 <tr id="skill-row-sub-head-social" class="skill-sub-head-row" >
   <th id="social-head-box" class="skill-head-box">Rote</th>
-  <th colspan="3" align="right" id="social-head-unskilled" class="skill-head-unskilled">(-1 unskilled)</th>
+  <th colspan="3" id="social-head-unskilled" class="skill-head-unskilled">(-1 unskilled)</th>
 </tr><!-- "skill-row-sub-head-social" -->
 <tr id="skill-row-animalken" class="skill-row">
   <td id="skill-box-animalken" class="skill-box">&#x25a1;</td>
@@ -662,30 +663,30 @@ let mage = {
 <table>
 
 <tr><th>Health</th></tr>
-<tr><td id="val-health" align="center">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
-<tr><td id="val-health-used" align="center">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
+<tr><td id="val-health" style="text-align:center;">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
+<tr><td id="val-health-used" style="text-align:center;">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
 
 <tr><td>&nbsp;</td></tr>
 
 <tr><th>Willpower</th></tr>
-<tr><td id="val-willpower" align="center">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
-<tr><td id="val-willpower-used" align="center">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
+<tr><td id="val-willpower" style="text-align:center;">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
+<tr><td id="val-willpower-used" style="text-align:center;">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
 
 <tr><td>&nbsp;</td></tr>
 
 <tr><th>Gnosis</th></tr>
-<tr><td id="val-gnosis" align="center">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
+<tr><td id="val-gnosis" style="text-align:center;">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
 
 <tr><td>&nbsp;</td></tr>
 
 <tr><th>Mana</th></tr>
-<tr><td id="val-mana1" align="center">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
-<tr><td id="val-mana2" align="center">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
+<tr><td id="val-mana1" style="text-align:center;">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
+<tr><td id="val-mana2" style="text-align:center;">&#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1; &#x25a1;</td></tr>
 
 <tr><td>&nbsp;</td></tr>
 
 <tr><th>Wisdom</th></tr>
-<tr><td id="val-wisdom" align="center">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
+<tr><td id="val-wisdom" style="text-align:center;">&#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb; &#x25cb;</td></tr>
 
 <tr><td>&nbsp;</td></tr>
 
