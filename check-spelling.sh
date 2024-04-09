@@ -22,7 +22,13 @@ function git_list_files() {
 		HEAD
 }
 
-IGNORE_PATTERN='^LICENSE.txt$\|\.css$\|jargon\.txt$\|check-spelling\.'
+IGNORE_PATTERN="\
+^LICENSE.txt$\
+\|\.css$\
+\|jargon\.txt$\
+\|check-.*\.sh$\
+\|check-.*\.yml$\
+"
 
 ERRORS=0
 for FILE in $(git_list_files | grep --invert-match $IGNORE_PATTERN); do
