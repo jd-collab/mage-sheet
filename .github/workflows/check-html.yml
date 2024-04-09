@@ -1,0 +1,25 @@
+# Copyright (C) 2024 Eric Herman
+# License: Attribution-NonCommercial-ShareAlike 4.0 International
+# https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.txt
+# SPDX-License-Identifier: CC-BY-NC-SA-4.0
+
+name: check-html
+on:
+  - push
+  - pull_request
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  check-spell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: apt-get-update
+        run: sudo apt-get update
+      - name: apt-get-install
+        run: sudo apt-get install -y tidy
+      - name: run-check-html
+        run: ./check-html.sh
