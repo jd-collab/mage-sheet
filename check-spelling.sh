@@ -7,10 +7,16 @@
 # help set
 #       -e  Exit immediately if a command exits with a non-zero status.
 #       -x  Print commands and their arguments as they are executed.
+#       -o option-name
+#           Set the variable corresponding to option-name:
+#               pipefail     the return value of a pipeline is the status of
+#                            the last command to exit with a non-zero status,
+#                            or zero if no command exited with a non-zero status
 if [ "_${VERBOSE}" != "_" ] && [ "${VERBOSE}" -gt 0 ]; then
 	set -x
 fi
 set -e
+set -o pipefail
 
 
 function git_list_files() {
