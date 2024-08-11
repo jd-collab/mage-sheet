@@ -15,6 +15,7 @@ Magda's
 Mana
 Modred
 NonCommercial
+Pendragon
 Praxes
 Renier
 Renier's
@@ -22,11 +23,13 @@ Rotes
 Sabbat
 scrying
 ShareAlike
+SUV
+SUVs
+SUV's
 talkies
 Tisiphone
 TODO
+Uther
 walkie
 wonderous
 Yantras
-Uther
-Pendragon
