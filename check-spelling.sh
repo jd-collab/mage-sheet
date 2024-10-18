@@ -12,7 +12,7 @@
 #               pipefail     the return value of a pipeline is the status of
 #                            the last command to exit with a non-zero status,
 #                            or zero if no command exited with a non-zero status
-if [ "_${VERBOSE}" != "_" ] && [ "${VERBOSE}" -gt 0 ]; then
+if [ -n "${VERBOSE}" ] && [ "${VERBOSE}" -gt 0 ]; then
 	set -x
 fi
 set -e
