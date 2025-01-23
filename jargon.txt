@@ -1,5 +1,6 @@
 personal_ws-1.1 en 30 utf-8
 Arcana
+Anarchs
 Arcanum
 Biaxxa
 corporial
@@ -34,6 +35,7 @@ Tisiphone
 TODO
 Uther
 vampiric
+Vadislav
 walkie
 wonderous
 Yantras
