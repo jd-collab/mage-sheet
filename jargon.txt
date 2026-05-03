@@ -2,6 +2,7 @@ personal_ws-1.1 en 30 utf-8
 Arcana
 Anarchs
 Arcanum
+Atlantean
 Biaxxa
 corporial
 djinn
